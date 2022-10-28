@@ -1,0 +1,9 @@
+I would create a board based on the given HEIGHT AND WIDTH
+[[O,O,O,O,O,O,O],
+ [O,O,O,O,O,O,O],
+ [O,O,O,O,O,O,O],
+ [O,O,O,O,O,O,O],
+ [O,O,O,O,O,O,O],
+ [O,O,O,O,O,O,O]
+ ]
+ 
