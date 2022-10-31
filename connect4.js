@@ -76,21 +76,9 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
-  let tableToTraverse = document.getElementById("board");
-  let ids = `${y}-${x}`;
-
-  let numAfterDash = ids.split('-')[1];
- 
-  //counts the very top row that is not part of the game
-  let allRows = tableToTraverse.getElementsByTagName('tr');
   
 
-
-  let aRow = allRows[y+1];
-  
-  let cell = aRow.children[numAfterDash];
- 
-
+  let cell = document.getElementById(`${y}-${x}`);
   let tdDiv = document.createElement("div");
   tdDiv.classList.add('piece');
 
@@ -139,10 +127,9 @@ function handleClick(evt) {
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
   //updated in-memory board in the placeInTable() function
+  // switch players
+  // TODO: switch currPlayer 1 <-> 2
   placeInTable(y, x);
-
-
-
   if (board[y][x] === value) {
     if (currPlayer == 1) {
 
@@ -170,16 +157,14 @@ function handleClick(evt) {
 
   // check for tie
   // TODO: check if all cells in board are filled; if so call, call endGame
-  /**NEED TO COME BACK TO THIS */
   board.every(val => {
     if (val == 1 || val == 2) {
-      endGame();
+      return endGame('We have a tie!');
     }
   });
 
 
-  // switch players
-  // TODO: switch currPlayer 1 <-> 2
+  
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
