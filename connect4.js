@@ -64,7 +64,7 @@ function makeHtmlBoard() {
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
   //if this y has a class of p1 || or p2 then the y becomes y++ ; unless it makes y = 6 then the row would be full
-  for (let y = HEIGHT - 1; y >= 1; y--) {
+  for (let y = HEIGHT - 1; y >= 0; y--) {
     if (board[y][x] === value) {
       return y;
     }
@@ -80,20 +80,16 @@ function placeInTable(y, x) {
   let ids = `${y}-${x}`;
 
   let numAfterDash = ids.split('-')[1];
-  console.log("NumAfterDash");
-  console.log(numAfterDash);
-
-  console.log(ids);
+ 
+  //counts the very top row that is not part of the game
   let allRows = tableToTraverse.getElementsByTagName('tr');
+  
 
 
-
-  let aRow = allRows[y];
-  console.log(`aRow is ${aRow}`);
-  console.log(aRow);
+  let aRow = allRows[y+1];
+  
   let cell = aRow.children[numAfterDash];
-  console.log(`cell is ${cell}`);
-  console.log(cell);
+ 
 
   let tdDiv = document.createElement("div");
   tdDiv.classList.add('piece');
