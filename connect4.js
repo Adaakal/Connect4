@@ -63,8 +63,13 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  console.log(x)
-  return x;
+  //if this y has a class of p1 || or p2 then the y becomes y++ ; unless it makes y = 6 then the row would be full
+  for (let y = HEIGHT - 1; y >= 1; y--) {
+    if (board[y][x] === value) {
+      return y;
+    }
+  }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
@@ -72,39 +77,51 @@ function findSpotForCol(x) {
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
   let tableToTraverse = document.getElementById("board");
-  
+  let ids = `${y}-${x}`;
+
+  let numAfterDash = ids.split('-')[1];
+  console.log("NumAfterDash");
+  console.log(numAfterDash);
+
+  console.log(ids);
   let allRows = tableToTraverse.getElementsByTagName('tr');
 
-  let aRow = allRows[y+1];
+
+
+  let aRow = allRows[y];
   console.log(`aRow is ${aRow}`);
   console.log(aRow);
-  let cell = aRow.children[x];
+  let cell = aRow.children[numAfterDash];
   console.log(`cell is ${cell}`);
   console.log(cell);
-  
+
   let tdDiv = document.createElement("div");
   tdDiv.classList.add('piece');
-  
-  cell.appendChild(tdDiv);
-  console.log(currPlayer);
 
+  cell.appendChild(tdDiv);
   if (currPlayer == 1) {
-    board[y][x] = currPlayer;
-    console.log(board[y][x]);
+
     tdDiv.classList.add('p1');
-    currPlayer = 2;
+
   } else {
-    board[y][x] = currPlayer;
+
     tdDiv.classList.add('p2');
-    currPlayer = 1;
+
   }
+
+  //Handle if there is already a classlist, meaning that the spot is taken.
   console.log(currPlayer);
+  return cell;
+
+
+
 }
 
 /** endGame: announce game end */
 
 function endGame(msg) {
   // TODO: pop up alert message
+  alert(msg);
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -113,6 +130,7 @@ function handleClick(evt) {
   // get x from ID of clicked cell
   let x = +evt.target.id;
   console.log(`X is ${x}`);
+
   console.log(`Event-target is ${evt.target}`);
   console.log(evt.target);
   // get next spot in column (if none, ignore click)
@@ -126,11 +144,28 @@ function handleClick(evt) {
   // TODO: add line to update in-memory board
   //updated in-memory board in the placeInTable() function
   placeInTable(y, x);
-  
-  console.log(board);
-  console.log(x, y);
-  console.log(board[y][x]);
-  
+
+
+
+  if (board[y][x] === value) {
+    if (currPlayer == 1) {
+
+
+      board[y][x] = currPlayer;
+      console.log(board[y][x]);
+
+      currPlayer = 2;
+
+
+    } else {
+     
+      board[y][x] = currPlayer;
+
+      currPlayer = 1;
+    }
+  }
+
+
 
   // check for win
   if (checkForWin()) {
@@ -145,7 +180,7 @@ function handleClick(evt) {
       endGame();
     }
   });
-    
+
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
@@ -158,7 +193,7 @@ function checkForWin() {
     // Check four cells to see if they're all color of current player
     //  - cells: list of four (y, x) cells
     //  - returns true if all are legal coordinates & all match currPlayer
-    
+
     //the current play just filled all the boxes so return all the boxes and the one that was just filled
     return cells.every( //basically saying, return the entire board.
       ([y, x]) =>
